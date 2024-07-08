@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TableOrderModule } from './Orders/table-order/table-order.module';
-// import { OnlineOrderModule } from './Orders/online-order/online-order.module';
 import { TakeoutOrderModule } from './Orders/takeout-order/takeout-order.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { OnlineOrderModule } from './Orders/online-order/online-order.module';
 
 @Module({
   imports: [
@@ -22,15 +22,15 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
           password: configService.get<string>('DB_PASSWORD'),
           database: configService.get<string>('DB_NAME'),
           entities: ['dist/**/*.entity{.ts,.js}'],
-          synchronize: false,
+          synchronize: true,
         };
       },
       inject: [ConfigService],
     }),
+    OnlineOrderModule,
 
-    TableOrderModule,
-    // OnlineOrderModule,
     TakeoutOrderModule,
+    TableOrderModule,
   ],
   controllers: [],
   providers: [],
