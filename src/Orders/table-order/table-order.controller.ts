@@ -6,8 +6,6 @@ import {
   Param,
   Delete,
   Put,
-  HttpException,
-  HttpStatus,
 } from '@nestjs/common';
 import { TableOrderService } from './table-order.service';
 import { CreateTableOrderDto } from './dto/create-table-order.dto';
@@ -27,15 +25,7 @@ export class TableOrderController {
   })
   @ApiResponse({ status: 400, description: 'Bad Request.' })
   async create(@Body() createTableOrderDto: CreateTableOrderDto) {
-    try {
-      return await this.tableOrderService.create(createTableOrderDto);
-      // Return something meaningful if needed
-    } catch (error) {
-      throw new HttpException(
-        `Failed to create table order: ${error.message}`,
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
+    return await this.tableOrderService.create(createTableOrderDto);
   }
 
   @Get()
@@ -46,14 +36,7 @@ export class TableOrderController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async findAll() {
-    try {
-      return await this.tableOrderService.findAll();
-    } catch (error) {
-      throw new HttpException(
-        'Failed to retrieve table orders',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
+    return await this.tableOrderService.findAll();
   }
 
   @Get(':id')
@@ -64,14 +47,7 @@ export class TableOrderController {
   })
   @ApiResponse({ status: 404, description: 'Table order not found.' })
   async findOne(@Param('id') id: string) {
-    try {
-      return await this.tableOrderService.findOne(+id);
-    } catch (error) {
-      throw new HttpException(
-        'Failed to retrieve table order',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
+    return await this.tableOrderService.findOne(+id);
   }
 
   @Put(':id')
@@ -85,14 +61,7 @@ export class TableOrderController {
     @Param('id') id: string,
     @Body() updateTableOrderDto: UpdateTableOrderDto,
   ) {
-    try {
-      return await this.tableOrderService.update(+id, updateTableOrderDto);
-    } catch (error) {
-      throw new HttpException(
-        'Failed to update table order',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
+    return await this.tableOrderService.update(+id, updateTableOrderDto);
   }
 
   @Delete(':id')
@@ -103,13 +72,6 @@ export class TableOrderController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async remove(@Param('id') id: string) {
-    try {
-      return await this.tableOrderService.remove(+id);
-    } catch (error) {
-      throw new HttpException(
-        'Failed to delete table order',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
-    }
+    return await this.tableOrderService.remove(+id);
   }
 }

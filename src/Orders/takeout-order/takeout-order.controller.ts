@@ -6,8 +6,6 @@ import {
   Param,
   Delete,
   Put,
-  NotFoundException,
-  BadRequestException,
 } from '@nestjs/common';
 import { TakeoutOrderService } from './takeout-order.service';
 import { CreateTakeoutOrderDto } from './dto/create-takeout-order.dto';
@@ -27,12 +25,9 @@ export class TakeoutOrderController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async create(@Body() createTakeoutOrderDto: CreateTakeoutOrderDto) {
-    try {
-      return await this.takeoutOrderService.create(createTakeoutOrderDto);
-    } catch (error) {
-      throw new BadRequestException('Failed to create takeout order.');
-    }
+    return await this.takeoutOrderService.create(createTakeoutOrderDto);
   }
+
   @Get()
   @ApiOperation({ summary: 'Get all takeout orders' })
   @ApiResponse({
@@ -41,12 +36,9 @@ export class TakeoutOrderController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async findAll() {
-    try {
-      return await this.takeoutOrderService.findAll();
-    } catch (error) {
-      throw new NotFoundException('Failed to find takeout orders.');
-    }
+    return await this.takeoutOrderService.findAll();
   }
+
   @Get(':id')
   @ApiOperation({ summary: 'Get takeout order by ID' })
   @ApiResponse({
@@ -55,16 +47,9 @@ export class TakeoutOrderController {
   })
   @ApiResponse({ status: 404, description: 'Takeout order not found.' })
   async findOne(@Param('id') id: string) {
-    try {
-      const result = await this.takeoutOrderService.findOne(+id);
-      if (!result) {
-        throw new NotFoundException('Takeout order not found.');
-      }
-      return result;
-    } catch (error) {
-      throw new NotFoundException('Failed to find takeout order.');
-    }
+    return await this.takeoutOrderService.findOne(+id);
   }
+
   @Put(':id')
   @ApiOperation({ summary: 'Update a takeout order' })
   @ApiResponse({
@@ -76,12 +61,9 @@ export class TakeoutOrderController {
     @Param('id') id: string,
     @Body() updateTakeoutOrderDto: UpdateTakeoutOrderDto,
   ) {
-    try {
-      return await this.takeoutOrderService.update(+id, updateTakeoutOrderDto);
-    } catch (error) {
-      throw new BadRequestException('Failed to update takeout order.');
-    }
+    return await this.takeoutOrderService.update(+id, updateTakeoutOrderDto);
   }
+
   @Delete(':id')
   @ApiOperation({ summary: 'Delete a takeout order' })
   @ApiResponse({
@@ -90,10 +72,6 @@ export class TakeoutOrderController {
   })
   @ApiResponse({ status: 403, description: 'Forbidden.' })
   async remove(@Param('id') id: string) {
-    try {
-      return await this.takeoutOrderService.remove(+id);
-    } catch (error) {
-      throw new BadRequestException('Failed to delete takeout order.');
-    }
+    return await this.takeoutOrderService.remove(+id);
   }
 }
